@@ -28,44 +28,14 @@ if($userToShow != false)
 
 
 
-    if($userToShow->getId() === $_SESSION['userId'])
+    foreach($userToShow->loadAllOrders() as $order)
     {
-        echo("
-        <h3>New tweet:</h3>
-        <form action='showUser.php' method='post'>
-            <input type='text' name='tweet_text'>
-            <input type='submit'>
-        </form>
-        ");
-    }
+        echo("<a href ='xxxx.php?id={$order->getId()}'>{$order->getTweetBody()}</a><br>");
+        echo("{$order->getPostDate()}<br>");
 
-    foreach($userToShow->loadAllTweets() as $tweet)
-    {
-        echo("<a href ='showTweet.php?id={$tweet->getId()}'>{$tweet->getTweetBody()}</a><br>");
-        echo("{$tweet->getPostDate()}<br>");
-        $commentsNumber = count($tweet->getAllComments());
-        echo("Comments: $commentsNumber <br>");
-        echo("<a href='editTweet.php?id={$tweet->getId()}'> Edit</a><br>");
-        echo("<a href='deleteTweet.php?id={$tweet->getId()}'> Delete</a><br>");
     }
 }
 else
 {
     echo("User doesn't exist.");
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
-{
-
-    if(isset($_POST['tweet_text']) && strlen(trim($_POST['tweet_text'])) > 0)
-    {
-        $idUser = $_SESSION['userId'];
-        $tweetBody = $_POST['tweet_text'];
-        $tweet = Tweet::CreateTweet($idUser, $tweetBody);
-
-    }
-    else
-    {
-        echo("We couldn't save your tweet");
-    }
 }
