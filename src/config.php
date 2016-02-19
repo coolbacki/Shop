@@ -3,6 +3,6 @@
 $servername = "localhost";
 $username = "root";
 $password = "coderslab";
-$basename = "shop";
+$basename = "Shop";
 
 ?>
