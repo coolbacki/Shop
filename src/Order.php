@@ -2,12 +2,22 @@
 /*
 CREATE TABLE Orders(
     id int AUTO_INCREMENT,
-    name varchar(255),
-    description varchar(255),
-    price float,
-    quantity int,
+    status int,
+    user_id int,
     PRIMARY KEY(id)
+    FOREIGN KEY(user_id) REFERENCES Users(id)
 );
+
+CREATE TABLE ItemsOrders(
+    id int AUTO_INCREMENT,
+    item_id int,
+    order_id int,
+    PRIMARY KEY(id)
+    UNIQUE KEY ItemOrderKey (item_id, order_id),
+    FOREIGN KEY(item_id) REFERENCES Items(id)
+    FOREIGN KEY(order_id ) REFERENCES Orders(id),
+);
+
 */
 
 class Order
@@ -18,9 +28,9 @@ class Order
         Order::$connection = $newConnection;
     }
 
-    static public function CreateOrder($newName, $newDescription, $newPrice, $newQuantity)
+    static public function CreateOrder($newStatus, $newUserId)
     {
-        $sql = "INSERT INTO Orders(name, description, price, quantity)
+        $sql = "INSERT INTO Orders(status, user_id)
                 VALUES ('$newName', '$newDescription', '$newPrice', '$newQuantity')";
 
         $result = self::$connection->query($sql);

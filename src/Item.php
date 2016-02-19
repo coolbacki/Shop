@@ -76,7 +76,7 @@ class Item
             return false;
         }
     }
-    
+
     private $id;
     private $name;
     private $description;

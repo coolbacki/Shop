@@ -1,14 +1,16 @@
 <?php
+
 /*
- * CREATE TABLE Users(
- * id int AUTO_INCREMENT,
- * name varchar(255),
- * email varchar(255) UNIQUE,
- * password char(60),
- * address varchar(255),
- * PRIMARY KEY(id)
- * );
+ CREATE TABLE Users(
+ id int AUTO_INCREMENT,
+ name varchar(255),
+ email varchar(255),
+ password char(60),
+ address varchar(255),
+ PRIMARY KEY(id)
+ );
  */
+
 class User
 {
     static private $connection;
@@ -17,10 +19,10 @@ class User
     {
         User::$connection = $newConnection;
     }
+
     static public function RegisterUser($newName, $newEmail, $password1, $password2, $newAddress)
     {
-        if($password1 != $password2)
-        {
+        if ($password1 != $password2) {
             return false;
         }
         $options = [
@@ -34,8 +36,7 @@ class User
 
 
         $result = self::$connection->query($sql);
-        if($result === true)
-        {
+        if ($result === true) {
             $newUser = new User(self::$connection->insert_id, $newName, $newEmail, $newAddress);
             return $newUser;
         }
@@ -47,14 +48,11 @@ class User
         $sql = "SELECT * FROM Users WHERE email LIKE '$email'";
         $result = self::$connection->query($sql);
 
-        if($result != false)
-        {
-            if($result->num_rows == 1)
-            {
+        if ($result != false) {
+            if ($result->num_rows == 1) {
                 $row = $result->fetch_assoc();
                 $isPasswordOk = password_verify($password, $row["password"]);
-                if($isPasswordOk === true)
-                {
+                if ($isPasswordOk === true) {
                     $user = new User($row["id"], $row["name"], $row["email"], $row["description"]);
                     return $user;
                 }
@@ -96,10 +94,9 @@ class User
         return $this->address;
     }
 
-    public function setAddress ($newAddress)
+    public function setAddress($newAddress)
     {
-        if(is_string($newAddress))
-        {
+        if (is_string($newAddress)) {
             $this->address = $newAddress;
         }
 
@@ -109,8 +106,7 @@ class User
     {
         $sql = "UPDATE Users SET address='$newAddress' WHERE id = $this->id";
         $result = self::$connection->query($sql);
-        if($result === true)
-        {
+        if ($result === true) {
             return true;
         }
         return false;
@@ -121,12 +117,9 @@ class User
         $ret = [];
         $sql = "SELECT * FROM Orders WHERE id_user = ($this->id) ORDER BY post_date DESC";
         $result = self::$connection->query($sql);
-        if($result != false)
-        {
-            if($result->num_rows > 0)
-            {
-                while($row = $result->fetch_assoc())
-                {
+        if ($result != false) {
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
                     $order = new Orders($row['id'], $row['id_user'], $row['xxxx'], $row['order_date']);
                     $ret[] = $order;
                 }
