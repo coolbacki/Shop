@@ -9,6 +9,7 @@ CREATE TABLE Items(
     PRIMARY KEY(id)
 );
 */
+
 class Item
 {
     static private $connection; //wspólne połączenie do bazy dla wszystkich userow
@@ -75,8 +76,7 @@ class Item
             return false;
         }
     }
-
-
+    
     private $id;
     private $name;
     private $description;
