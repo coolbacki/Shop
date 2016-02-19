@@ -2,7 +2,7 @@
 /*
 CREATE TABLE Items(
     id int AUTO_INCREMENT,
-    name varchar(255) UNIQUE,
+    name varchar(255),
     description varchar(255),
     price float,
     quantity int,
